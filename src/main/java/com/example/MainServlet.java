@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.accounts.AccountService;
+import com.example.accounts.UserProfile;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,12 +19,28 @@ import java.util.List;
 
 @WebServlet("/files")
 public class MainServlet extends HttpServlet {
+    private final AccountService accountService = AccountService.getInstance();
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String path = req.getParameter("path");
+        String session = req.getSession().getId();
+        UserProfile profile = accountService.GetBySessionId(session);
+        String requestedPath = req.getParameter("path");
+        if (profile == null){
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+            return;
+        }
+
+        String basePath = "/Users/admin/Desktop/testServlet/" + profile.GetLogin();
+        if (requestedPath == null || !requestedPath.startsWith(basePath)) {
+            requestedPath = basePath;
+        }
+        String path = requestedPath;
+        if (!path.startsWith(basePath)){
+            path = basePath;
+        }
         List<FileInfo> fileInfoList = getFileInfos(path);
         String parentPath = new  File(path).getParent();
         req.setAttribute("parentPath", parentPath);

@@ -7,7 +7,15 @@
     <title>File Manager</title>
 </head>
 <body>
-    <h1>Generated at: ${time}</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Generated at: ${time}</h1>
+        <!-- Кнопка Выйти здесь -->
+        <a href="${pageContext.request.contextPath}/exit">
+            <button type="button" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+                🔓 Выйти
+            </button>
+        </a>
+    </div>
 
     <%-- Кнопка Наверх --%>
     <%
