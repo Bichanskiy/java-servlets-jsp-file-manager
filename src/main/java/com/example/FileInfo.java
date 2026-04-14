@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FileInfo {
     private String name;
-    private Boolean isDirectory;
+    private boolean isDirectory;
     private String path;
 
     public FileInfo(String path) {

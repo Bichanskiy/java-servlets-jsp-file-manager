@@ -23,16 +23,20 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req,  HttpServletResponse resp)
-        throws ServletException, IOException{
+            throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String sessionId = req.getSession().getId();
 
         if (login != null && password != null) {
-            if (accountService.GetUserByLogin(login) != null &&
-            accountService.GetUserByLogin(login).GetPassword().equals(password)) {
-                accountService.AddSession(sessionId, accountService.GetUserByLogin(login));
-                resp.sendRedirect("/servlet/files");
+            com.example.accounts.UserProfile profile = accountService.GetUserByLogin(login);
+
+            if (profile != null && profile.GetPassword().equals(password)) {
+
+                accountService.AddSession(sessionId, profile);
+                req.getSession().setAttribute("userProfile", profile);
+
+                resp.sendRedirect(req.getContextPath() + "/files");
             }
             else {
                 req.setAttribute("error", "Invalid login or password");

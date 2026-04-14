@@ -26,7 +26,7 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String session = req.getSession().getId();
-        UserProfile profile = accountService.GetBySessionId(session);
+        UserProfile profile = (UserProfile) req.getSession().getAttribute("userProfile");
         String requestedPath = req.getParameter("path");
         if (profile == null){
             req.getRequestDispatcher("login.jsp").forward(req, resp);
