@@ -45,7 +45,9 @@ public class LoginServlet extends HttpServlet {
                     req.getRequestDispatcher("login.jsp").forward(req, resp);
                 }
             } catch (Exception e){
-                req.setAttribute("error", "Invalid login or password");
+                req.setAttribute("error", "System error: " + e.getMessage());
+
+                req.getRequestDispatcher("login.jsp").forward(req, resp);
             }
 
 
